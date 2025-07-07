@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form class="auth-form" action="/login" method="POST" onsubmit="return validateForm()">
+            <h2>Login</h2>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="submit" class="btn">LOGIN</button>
+            <p>Don't have an account? <a href="/register">Register</a></p>
+        </form>
+    </div>
+    
+    <!-- Popup container -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <p id="popup-message"></p>
+        </div>
+    </div>
+
+    <script>
+        // Show flash messages as popups
+        const popup = document.getElementById('popup');
+        const popupMessage = document.getElementById('popup-message');
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    showPopup("{{ message }}", "{{ category }}");
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        function showPopup(message, type) {
+            popupMessage.textContent = message;
+            popup.style.display = 'block';
+            popup.className = `popup ${type}`;
+            
+            // Auto-close after 3 seconds
+            setTimeout(closePopup, 3000);
+        }
+        
+        function closePopup() {
+            popup.style.display = 'none';
+        }
+        
+        // Close popup when clicking outside
+        window.onclick = function(event) {
+            if (event.target === popup) {
+                closePopup();
+            }
+        }
+        
+        // Password validation function
+        function validateForm() {
+            const password = document.getElementById('password').value;
+            if (password.length < 6) {
+                showPopup('Password must be at least 6 characters', 'error');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
