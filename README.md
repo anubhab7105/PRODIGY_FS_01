@@ -20,5 +20,5 @@ A responsive and secure authentication system with login/registration functional
 ## ⚙️ Installation
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/user-authentication-system.git
+git clone https://github.com/anubhab7105/PRODIGY_FS_01
 cd user-authentication-system
