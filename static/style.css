@@ -270,3 +270,19 @@ a {
         padding: 20px;
     }
 }
+
+    .password-hint {
+        text-align: left;
+        margin-top: 5px;
+        color: #666;
+        font-size: 12px;
+    }
+
+    .password-hint ul {
+        padding-left: 20px;
+        margin-top: 5px;
+    }
+
+    .password-hint li {
+        list-style-type: disc;
+    }

@@ -12,13 +12,18 @@ def init_db():
     conn = sqlite3.connect('users.db')
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS users
-                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                 username TEXT UNIQUE NOT NULL,
-                 password TEXT NOT NULL)''')
+                (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL)''')
     conn.commit()
     conn.close()
 
 init_db()
+
+def get_db_connection():
+    conn = sqlite3.connect('users.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 @app.route('/')
 def index():
@@ -45,7 +50,7 @@ def register():
             conn = sqlite3.connect('users.db')
             c = conn.cursor()
             c.execute("INSERT INTO users (username, password) VALUES (?, ?)", 
-                     (username, hashed_pw))
+                    (username, hashed_pw))
             conn.commit()
             flash('Registration successful! Please log in.', 'success')
             return redirect(url_for('login'))
